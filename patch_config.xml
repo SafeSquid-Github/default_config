@@ -1,0 +1,224 @@
+<?xml version="1.0" ?>
+<safesquid>
+    <dnsbl>
+        <enabled>TRUE</enabled>
+        <policy id="41">
+            <enabled>TRUE</enabled>
+            <comment>We block all websites categorized as Child Abuse Images,Nudity,Pornography/Sexually Explicit,Sex Education.</comment>
+            <bl_categories>Child Abuse Images,Nudity,Pornography/Sexually Explicit,Sex Education</bl_categories>
+        </policy>
+        <policy id="43">
+            <enabled>TRUE</enabled>
+            <comment>We block DNS requests for all websites categorized as Alcohol &amp; Tobacco,Criminal Activity,Cults,Gambling,Hate &amp; Intolerance,Illegal Drug,School Cheating,Tasteless,Violence,Weapons</comment>
+            <bl_categories>Alcohol &amp; Tobacco,Criminal Activity,Cults,Gambling,Hate &amp; Intolerance,Illegal Drug,School Cheating,Tasteless,Violence</bl_categories>
+        </policy>
+        <policy id="45">
+            <enabled>TRUE</enabled>
+            <comment>We block DNS requests for all websites categorized as Anonymizers, Botnets, Compromised, Hacking Illegal Software, Malware, Peer-to-Peer, Phishing &amp; Fraud, Spam Sites </comment>
+            <bl_categories>Anonymizers,Botnets,Compromised,Hacking,Illegal Software,Malware,Peer-to-Peer,Phishing &amp; Fraud,Spam Sites</bl_categories>
+        </policy>
+        <policy id="47">
+            <enabled>TRUE</enabled>
+            <comment>We prohibit access to malicious websites reported by our security apparatus</comment>
+            <bl_requests>Security Threat</bl_requests>
+        </policy>
+        <policy id="49">
+            <enabled>TRUE</enabled>
+            <comment>We Block DNS queries for websites Geo-Located in China</comment>
+            <bl_countries>CN</bl_countries>
+        </policy>
+    </dnsbl>
+    <header-filtering>
+        <enabled>TRUE</enabled>
+        <policy>ALLOW</policy>
+        <insert id="61">
+            <enabled>TRUE</enabled>
+            <comment>Set SafeSquid as the CSP reporting endpoint</comment>
+            <type>Reporting-Endpoints</type>
+            <value>safesquid-csp=&quot;https://safesquid.cfg/csp?CLIENTID=@CLIENTID@&amp;USERNAME=@USERNAME@&quot;</value>
+            <which>SERVER</which>
+        </insert>
+        <insert id="67">
+            <enabled>TRUE</enabled>
+            <comment>Restrict loading of cross-site URLs using script interfaces.</comment>
+            <profiles>!FULL CONTENT ACCESS,!MINIMAL CONTENT ACCESS</profiles>
+            <type>Content-Security-Policy</type>
+            <value>connect-src &apos;self&apos; @HOST_DOMAIN@ *.@HOST_DOMAIN@; child-src &apos;self&apos; @HOST_DOMAIN@ *.@HOST_DOMAIN@;  report-uri https://safesquid.cfg/csp?CLIENTID=@CLIENTID@&amp;USERNAME=@USERNAME@</value>
+            <which>SERVER</which>
+        </insert>
+        <insert id="69">
+            <enabled>TRUE</enabled>
+            <comment>Restrict web-page from triggering popups, or any plugins, scripts, cross-orgin traffic, etc. and prevent users to make any form submissions or downloads.</comment>
+            <profiles>MINIMAL CONTENT ACCESS</profiles>
+            <type>Content-Security-Policy</type>
+            <value>default-src &apos;none&apos;; form-action &apos;none&apos;; font-src *; child-src &apos;none&apos;; img-src *; style-src * &apos;unsafe-inline&apos;; report-uri https://safesquid.cfg/csp?CLIENTID=@CLIENTID@&amp;USERNAME=@USERNAME@</value>
+            <which>SERVER</which>
+        </insert>
+    </header-filtering>
+    <profiles>
+        <defaults id="139">
+            <enabled>TRUE</enabled>
+            <comment>We permit only minimal content access for Advertisements &amp; Pop-Ups, unclassified websites to prevent any Phishing attack</comment>
+            <profile_tracing>FALSE</profile_tracing>
+            <web_categories>#,Unknown,Advertisements &amp; Pop-Ups</web_categories>
+            <action>INHERIT</action>
+            <add_profiles>MINIMAL CONTENT ACCESS</add_profiles>
+        </defaults>
+        <defaults id="143">
+            <enabled>TRUE</enabled>
+            <comment>Prevent Login to Cyber-slacking Sites</comment>
+            <profile_tracing>TRUE</profile_tracing>
+            <web_categories>Forums &amp; Newsgroups,Instant Messaging,News,Social Networking</web_categories>
+            <action>INHERIT</action>
+            <add_profiles>READ ONLY</add_profiles>
+        </defaults>
+        <defaults id="125">
+            <enabled>TRUE</enabled>
+            <comment>We want to bypass user authentication for applications that do not supports proxy authentication</comment>
+            <profile_tracing>FALSE</profile_tracing>
+            <req_types>Requires Authentication Bypass</req_types>
+            <action>INHERIT</action>
+            <add_profiles>BYPASS AUTHENTICATION</add_profiles>
+        </defaults>
+        <defaults id="127">
+            <enabled>TRUE</enabled>
+            <comment>We enforce SafeSearch for users accessing Google Search.</comment>
+            <profile_tracing>TRUE</profile_tracing>
+            <req_types>Google UnSafe Search</req_types>
+            <action>INHERIT</action>
+            <add_profiles>ENFORCE GOOGLE SAFE SEARCH</add_profiles>
+        </defaults>
+        <defaults id="129">
+            <enabled>TRUE</enabled>
+            <comment>We enforce SafeSearch for users accessing Yahoo Search.</comment>
+            <profile_tracing>FALSE</profile_tracing>
+            <req_types>Yahoo UnSafe Search</req_types>
+            <action>INHERIT</action>
+            <add_profiles>ENFORCE YAHOO SAFE SEARCH</add_profiles>
+        </defaults>
+        <defaults id="131">
+            <enabled>TRUE</enabled>
+            <comment>We enforce SafeSearch for users accessing Bing Search.</comment>
+            <profile_tracing>FALSE</profile_tracing>
+            <req_types>Bing UnSafe Search</req_types>
+            <action>INHERIT</action>
+            <add_profiles>ENFORCE BING SAFE SEARCH</add_profiles>
+        </defaults>
+        <defaults id="133">
+            <enabled>TRUE</enabled>
+            <comment>We enforce SafeSearch for users accessing duckduckgo Search.</comment>
+            <profile_tracing>FALSE</profile_tracing>
+            <req_types>DuckDuckGo UnSafe Search</req_types>
+            <action>INHERIT</action>
+            <add_profiles>ENFORCE DUCKDUCKGO SAFE SEARCH</add_profiles>
+        </defaults>
+        <defaults id="135">
+            <enabled>TRUE</enabled>
+            <comment>We enforce Restrict mode for users accessing YouTube.</comment>
+            <profile_tracing>FALSE</profile_tracing>
+            <req_types>Youtube</req_types>
+            <action>INHERIT</action>
+            <add_profiles>ENFORCE YOUTUBE RESTRICTED MODE</add_profiles>
+        </defaults>
+        <defaults id="137">
+            <enabled>TRUE</enabled>
+            <comment>We forbid use of personal Google accounts, and allow use of only our Corporate Google account</comment>
+            <profile_tracing>TRUE</profile_tracing>
+            <req_types>Google</req_types>
+            <action>INHERIT</action>
+            <add_profiles>ENFORCE CORPORATE GOOGLE ACCOUNTS</add_profiles>
+        </defaults>
+        <defaults id="145">
+            <enabled>TRUE</enabled>
+            <comment>We bypass HTTPS Inspection for applications that work only when SSL Inspection is disabled</comment>
+            <profile_tracing>FALSE</profile_tracing>
+            <req_types>Bypass HTTPS Inspection</req_types>
+            <action>INHERIT</action>
+            <add_profiles>BYPASS SSL INSPECTION</add_profiles>
+        </defaults>
+        <defaults id="149">
+            <enabled>TRUE</enabled>
+            <comment>We Permit access to our Intranet Web Sites that use self-signed certificates</comment>
+            <profile_tracing>FALSE</profile_tracing>
+            <web_categories>Intranet Sites</web_categories>
+            <action>ALLOW</action>
+            <add_profiles>ALLOW SELF SIGNED SSL CERTIFICATE</add_profiles>
+            <remove_profiles>READ ONLY</remove_profiles>
+        </defaults>
+        <defaults id="147">
+            <enabled>FALSE</enabled>
+            <comment>We Forbid Unsanctioned Access To Web Sites and Internet Applications</comment>
+            <profile_tracing>FALSE</profile_tracing>
+            <action>DO_NOT_BYPASS</action>
+        </defaults>
+    </profiles>
+    <redirect>
+        <enabled>TRUE</enabled>
+        <redirection id="165">
+            <enabled>TRUE</enabled>
+            <comment>This entry enforces the DuckDuckGo Safe Searching Experience</comment>
+            <profiles>ENFORCE DUCKDUCKGO SAFE SEARCH</profiles>
+            <url>(.*)</url>
+            <redirect>$1&amp;kp=1</redirect>
+            <port>0</port>
+            <send302>FALSE</send302>
+            <which>BOTH</which>
+        </redirection>
+    </redirect>
+    <reqProfiles>
+        <enabled>TRUE</enabled>
+        <request_hosts id="167">
+            <enabled>TRUE</enabled>
+            <comment>Malicious websites reported by our security apparatus</comment>
+            <hosts>This entry ...</hosts>
+            <add_req_types>Security Threat</add_req_types>
+        </request_hosts>
+        <request_hosts id="169">
+            <enabled>TRUE</enabled>
+            <comment>Web Sites needed for daily business</comment>
+            <hosts>This entry ...</hosts>
+            <add_req_types>Business Necessities</add_req_types>
+        </request_hosts>
+    </reqProfiles>
+    <templates>
+        <template id="213">
+            <enabled>TRUE</enabled>
+            <comment>Default template displayed , when the there is no access to internet or any websites are blocked.</comment>
+            <name>blocked</name>
+            <file>blocked.html</file>
+            <mime>text/html</mime>
+            <code>403</code>
+            <type>FILE</type>
+            <parsable>TRUE</parsable>
+        </template>
+        <template id="215">
+            <enabled>FALSE</enabled>
+            <comment>Default template displayed , when the there is no access to internet or any websites are blocked.</comment>
+            <name>error</name>
+            <file>error.html</file>
+            <mime>text/html</mime>
+            <code>200</code>
+            <type>FILE</type>
+            <parsable>TRUE</parsable>
+        </template>
+    </templates>
+    <rewrite>
+        <enabled>TRUE</enabled>
+        <rewrite id="199">
+            <enabled>TRUE</enabled>
+            <comment>Request for png image instead of avif, required for image filter for image scanning. </comment>
+            <profiles>!BYPASS IMAGE FILTER</profiles>
+            <pattern>Accept:(.*)(avif)(.*)</pattern>
+            <replace>Accept:$1png;q=0.5$3</replace>
+            <which>CLIENT</which>
+        </rewrite>
+        <rewrite id="201">
+            <enabled>TRUE</enabled>
+            <comment>Request for jpg image instead of webp, required for image filter for image scanning. </comment>
+            <profiles>!BYPASS IMAGE FILTER</profiles>
+            <pattern>Accept:(.*)(webp)(.*)</pattern>
+            <replace>Accept:$1jpg;q=0.5$3</replace>
+            <which>CLIENT</which>
+        </rewrite>
+    </rewrite>
+</safesquid>

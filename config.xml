@@ -984,7 +984,7 @@
     <templates>
         <template id="213">
             <enabled>TRUE</enabled>
-            <comment>Default template displayed , when the there is no access to internet or any websites are blocked.</comment>
+            <comment>Default template displayed , when there is no access to internet or any websites are blocked.</comment>
             <name>blocked</name>
             <file>blocked.html</file>
             <mime>text/html</mime>
@@ -994,7 +994,7 @@
         </template>
         <template id="215">
             <enabled>FALSE</enabled>
-            <comment>Default template displayed , when the there is no access to internet or any websites are blocked.</comment>
+            <comment>Default template displayed , when there is no access to internet or any websites are blocked.</comment>
             <name>error</name>
             <file>error.html</file>
             <mime>text/html</mime>
